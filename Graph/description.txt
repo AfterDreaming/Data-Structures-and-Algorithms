@@ -1,0 +1,190 @@
+Homework 7, Which way?
+
+Minimum Spanning Trees and Shortest Paths
+
+You have been hired by Crazy Bob Trucking (CBT) to work in their Computer Department.  CBT
+is based in Atlanta and sends trucks all over the southeast to deliver cargo.  The basic
+map of the southeast is in a data file of cities and the distance between them in miles. 
+For example:
+
+Atlanta,Macon,84
+Atlanta,Albany,180
+Albany,Savannah,246
+
+Highways are considered to be 2-way (thus an undirected graph).  You may assume the graph is
+connected -- that is you do not have to do a connectivity check prior to running your 
+algorithms.
+
+PROBLEM 1.  CBT wants to minimize delivery distances.  The trucks always leave from Atlanta (the
+source) and go to other cities (the destinations).  Your task is to print a route list for the 
+truck drivers that shows the shortest route from Atlanta to the other cities that the company 
+services.  You should use Dijkstra's algorithm to solve this problem.  You should represent the
+graph in an adjacency list format.  
+
+a.  Read the data file (graphdata.txt) and create the graph (AdjacencyListGraph.java)
+b.  Run Dijkstra on the graph (Dijkstra.java)
+c.  Return the results
+
+You may use the built-in Collection classes to assist you (like LinkedList, HashMap and PriorityQueue).
+
+Recall that an adjacency list representation keeps a set of vertices, and each vertex keeps track of
+which vertices are adjacent to it and the cost (weight) to reach that vertex.  For example if I read
+the input line: Atlanta Macon 84, I would first split the line into its three parts:
+the string Atlanta, the string Macon and the integer 84.  Then I would look up Atlanta in the set of
+vertices.  If it is there use that vertex, otherwise create a new vertex and add it to the set. Do the
+same for Macon.  Now just add the pair (Macon 84) to the Atlanta vertex adjacency list and (Atlanta 84)
+to the Macon Adjacency list.
+
+PROBLEM 2.  CBT also needs to establish a hub of operations.  The company wants to connect all the
+serviced cities so that the overall mileage of the routes is at a minimum. Construct a minimum spanning
+tree from the given information and return the tree's edges.  You should use Kruskal's algorithm with
+union-find and a min heap (PriorityQueue).  The graph will should be taken in as an edge list.
+
+You may use the Java built-in Collections classes like PriorityQueue if you wish.  
+ 
+a.  Code a Union-Find data structure to assist you.  
+b.  Build the graph representation (EdgeList) from the given text file.
+c.  Find the MST using Kruskal's algorithm.
+d.  Return the results 
+
+Recall that an edge list representation keeps a set of edges where each edge has its vertex endpoints
+and a weight.  Now if I read the line: Atlanta,Macon,84, I split the line as before, then create an Edge
+object with the 2 vertices and weight and add it to the list of edges.
+
+HINT:  	HashMap<Key, Value> is your friend for fast lookups.
+		StringBuilder (or StringBuffer) speeds up building Strings in a toString method.
+--------------------------------------------------
+TURN IN:
+You are required to turn in your modified versions of:
+
+You may turn in more classes if you wish, additionally any method or constructor marked as //TODO must be
+implemented or completed in the provided files, DO NOT change the method headers of the methods we provided,
+you can create as many helper methods as you want though.
+
+AdjacencyList.java
+	This class contains the data and methods necessary to represent a graph in adjacency list format.
+	It should be able to read a data file in the format specified and populate the graph with the
+	correct vertexes and edges.
+Dijkstra.java
+	This class implements the single source, shortest path algorithm given an AdjacencyList and source.
+GraphType.java
+        This enumeration is for DIRECTED or UNDIRECTED graphs.
+Edge.java
+	This class should encapsulate information about an edge in the graph.
+EdgeList.java
+	This class contains the data and methods necessary to represent a graph in edge list format.
+	It should be able to read a data file in the format specified and populate the graph with the
+	correct vertexes and edges.
+Kruskal.java
+	This class implements the MST algorithm given an EdgeList.
+TableEntry.java
+	This class keeps track of a vertex state during  Dijkstra's execution
+RunProblems.java
+	This is a driver class that allows the testing of Dijkstra's and Kruskal's algorithms
+UnionFind.java
+	This class implements a union-find data structure which will check if two vertices are in the same set, and can
+	merge two vertices into the same set
+Vertex.java
+	This class should encapsulate information about a vertex in the graph.
+--------------------------------------------------
+FILE FORMAT:
+The provided text files will be provided in an Edge List format, on each line there will be comma
+separated names of vertices, followed by a comma, then an integral weight.
+
+You may assume that no vertex name contains a space or a comma, and they are unique (meaning every time you see the string
+"Atlanta" it is referring to the same vertex), You may also assume that the graph made up of the provided edges
+is simple (there will only be 1 edge from each vertex to any other) and it will be connected (you can get from one
+vertex to any other vertex)
+
+See the provided files for examples.
+
+SAMPLE OUTPUT:
+
+----- Dijkstra  (What I really want is just for you to print the table entries.  maybe this example is not so clear.  Printing the paths is extra credit). 
+---------- bookgraph.txt, v1
+v1: [0] (v1)
+v7: [5] (v1, v4, 1) (v4, v7, 4) 
+v5: [3] (v1, v4, 1) (v4, v5, 2) 
+v6: [6] (v1, v4, 1) (v4, v7, 4) (v7, v6, 1) 
+v4: [1] (v1, v4, 1) 
+v3: [3] (v1, v4, 1) (v4, v3, 2) 
+v2: [2] (v1, v2, 2) 
+---------- debuggraph.txt, a           
+d: [2] (a, d, 2) 
+b: [3] (a, d, 2) (d, b, 1) 
+c: [3] (a, d, 2) (d, c, 1) 
+a: [0] (a)
+
+----- Kruskal
+---------- bookgraph.txt
+(v7, v6, 1)
+(v1, v4, 1)
+(v1, v2, 2)
+(v4, v5, 2)
+(v4, v3, 2)
+(v4, v7, 4)
+---------- debuggraph.txt
+(d, c, 1)
+(b, d, 1)
+(a, d, 2)
+
+--------------------------------------------------
+GRADING CRITERIA
+AdjacencyList......... 10
+EdgeList.............. 10
+UnionFind............. 10
+Dijkstra.............. 30
+Kruskal............... 30
+Comments.............. 10
+--------------------------------------------------
+EXTRA CREDIT (5 Points)
+
+Create toString methods for the following classes using the EXACT format below
+
+Please use the following formats for your toString methods. Anything in curly
+braces {} represents a field variable that the class should have 
+
+Vertex: {name}
+
+	Example: 
+	Atlanta
+
+Edge: ({vertex u}, {vertex v}, {weight})
+
+	Example:
+	(Atlanta, Austin, 40)
+
+Path:
+	if: the path is a single vertex: [{weight}] ({start})
+	else: return all edges separated by spaces: [{weight}] {Edge 1} {Edge 2} {Edge 3} ...
+
+	Example:
+	[0] (Atlanta)
+	or
+	[165] (Atlanta, Austin, 40) (San Francisco, Austin, 80) (San Francisco, Mountain View, 10) (Mountain View, Seattle, 35)
+	
+	note that order of each edge's vertices does not matter
+	
+EdgeList: a string containing every edge separated by a new line character '\n': {Edge 1}\n{Edge 2}\n{Edge 3}\n
+
+	Example:
+	(Atlanta, Austin, 40)
+	(Mountain View, Seattle, 35)
+	(Austin, San Francisco, 80)
+	(San Francisco, Mountain View, 10)
+	
+AdjacencyList: each vertex followed by adjacent vertices and weights followed by a new line
+
+	Example:
+	Atlanta: (Austin, 40) (San Francisco, 140)
+	Austin: (Atlanta, 40) (San Francisco, 80)
+	Mountain View: (San Francisco, 10)
+	San Francisco: (Austin 80) (Atlanta, 140) (Mountain View, 10)
+
+--------------------------------------------------
+EXTRA CREDIT (10 Points)
+
+Write your own JUnit tests for this assignment.  Remember that you don't need tests for
+trivial getters and setters.  You should try to have tests for normal and exception
+cases and try to ensure every line of code gets executed at least once, and each
+if statement is executed in both T and F directions.
